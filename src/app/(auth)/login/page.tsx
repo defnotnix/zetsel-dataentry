@@ -12,12 +12,16 @@ import {
   Stack,
   Center,
   Box,
+  Container,
+  ThemeIcon,
+  Group,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
-import { SignIn } from "@phosphor-icons/react";
+import { BellIcon, SignIn, SignInIcon } from "@phosphor-icons/react";
 import { login } from "@/services/auth";
 import { useAuthStore } from "@/stores/authStore";
+import styles from "./styles.module.css";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -63,52 +67,101 @@ export default function LoginPage() {
   };
 
   return (
-    <Center
-      style={{ minHeight: "100vh" }}
-      className="bg-gradient-to-br from-blue-50 to-indigo-100"
-    >
-      <Box w={420} mx="auto" px="md">
-        <Paper withBorder shadow="md" p={30} radius="md">
-          <Stack align="center" mb="lg">
-            <Box
-              className="bg-blue-600 rounded-full p-3"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <SignIn size={32} weight="bold" color="white" />
-            </Box>
-            <Title order={2} ta="center">
-              RSP
-            </Title>
-            <Text c="dimmed" size="sm" ta="center">
-              Election Data Entry System
-            </Text>
-          </Stack>
+    <div style={{ background: "url(https://images.pexels.com/photos/7130500/pexels-photo-7130500.jpeg)", backgroundPosition: "top", backgroundSize: "cover", backgroundRepeat: "no-repeat" }}>
+      <Container size="xs" >
 
-          <form onSubmit={form.onSubmit(handleSubmit)}>
-            <Stack>
-              <TextInput
-                label="Username"
-                placeholder="Enter your username"
-                required
-                {...form.getInputProps("username")}
-              />
-              <PasswordInput
-                label="Password"
-                placeholder="Enter your password"
-                required
-                {...form.getInputProps("password")}
-              />
-              <Button type="submit" fullWidth loading={loading} mt="sm">
-                Sign In
-              </Button>
-            </Stack>
-          </form>
-        </Paper>
-      </Box>
-    </Center>
+        <Center h="100vh"  >
+
+
+
+          <Stack>
+
+            <Group justify="center">
+              <Text size="xs" fw={800} c="gray.0" tt="uppercase">
+                RSP - Data Organization Portal <span style={{ opacity: .5 }}>Powered by Zetsel</span>
+              </Text>
+            </Group>
+
+            <Paper py={73} px={64} radius="md">
+              <Stack align="center" mb="lg" gap="lg">
+
+
+                <Stack gap={0}>
+                  <Text size="2rem" fw={900} ta="center">
+                    RSP
+                  </Text>
+                  <Text size="lg">
+                    Data Entry System
+                  </Text>
+                </Stack>
+
+                <Text c="dimmed" size="sm" ta="center">
+                  Election Data Entry & Organization Platform
+                </Text>
+              </Stack>
+
+              <form onSubmit={form.onSubmit(handleSubmit)}>
+                <Stack>
+                  <TextInput
+                    size="md"
+                    style={{
+                      input: {
+                        fontSize: "var(--mantine-font-size-xs)",
+                        fontWeight: 800,
+                      },
+                      label: {
+                        fontWeight: 800,
+                        fontSize: "var(--mantine-font-size-xs)",
+                      }
+                    }}
+                    label="Username"
+                    placeholder="Enter your username"
+                    required
+                    {...form.getInputProps("username")}
+                  />
+                  <PasswordInput
+                    size="md"
+                    label="Password"
+                    style={{
+                      input: {
+                        fontSize: "var(--mantine-font-size-xs)",
+                        fontWeight: 800,
+                      },
+                      label: {
+                        fontWeight: 800,
+                        fontSize: "var(--mantine-font-size-xs)",
+                      }
+                    }}
+                    placeholder="Enter your password"
+                    required
+                    {...form.getInputProps("password")}
+                  />
+
+                  <Text size="xs" ta="center" opacity={.5}>
+                    Forgot your password? Please contact operator.
+                  </Text>
+
+                  <Button size="md" type="submit" fullWidth loading={loading} mt="sm">
+                    Sign In
+                  </Button>
+
+                  <Text size="xs" ta="center" >
+                    By signing in, you agree to our  <b>Terms of Service</b> &  <b>Privacy Policy</b>
+                  </Text>
+                </Stack>
+              </form>
+            </Paper>
+
+            <Group justify="center">
+              <Text size="xs" fw={800} c="gray.0" >
+                {String(new Date())}
+              </Text>
+            </Group>
+
+          </Stack>
+        </Center>
+
+      </Container>
+    </div>
   );
 }

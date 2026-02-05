@@ -1,7 +1,7 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 import Cookies from "js-cookie";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://10.0.0.3:8000";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://api.zetsel.com";
 
 const api = axios.create({
   baseURL: `${BASE_URL}/api`,

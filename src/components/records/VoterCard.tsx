@@ -9,6 +9,7 @@ import {
 } from "@phosphor-icons/react";
 import type { VoterRollEntry } from "@/types";
 import { useAuthStore } from "@/stores/authStore";
+import styles from "./styles.module.css";
 
 interface VoterCardProps {
   voter: VoterRollEntry;
@@ -38,7 +39,7 @@ export function VoterCard({ voter, onClick }: VoterCardProps) {
   );
 
   return (
-    <Box onClick={onClick} className="hover:shadow-md transition-shadow">
+    <Box onClick={onClick} className={styles.hoverCard}>
       <Stack gap={6}>
         {/* Top row: Name + badges */}
         <Group justify="space-between" wrap="nowrap">

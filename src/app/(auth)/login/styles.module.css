@@ -1,0 +1,13 @@
+.container {
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #eff6ff, #e0e7ff);
+}
+
+.iconWrapper {
+  background-color: #2563eb;
+  border-radius: 50%;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

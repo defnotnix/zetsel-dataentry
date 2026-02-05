@@ -14,6 +14,7 @@ import {
 } from "@mantine/core";
 import { MapPinIcon, ArrowUpRightIcon } from "@phosphor-icons/react";
 import type { PollingStation } from "@/types";
+import styles from "./styles.module.css";
 
 interface BoothSelectionViewProps {
   pollingStations: PollingStation[];
@@ -50,7 +51,7 @@ export function BoothSelectionView({
                 p="lg"
                 onClick={() => onStationSelect(station)}
                 style={{ cursor: "pointer" }}
-                className="hover:shadow-md transition-shadow"
+                className={styles.hoverCard}
               >
                 <Group gap="sm">
                   <ThemeIcon size="md" variant="light">
