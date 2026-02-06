@@ -5,7 +5,8 @@
       "Bash(dir:*)",
       "Bash(npm install:*)",
       "Bash(npx next build)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(node -e:*)"
     ]
   }
 }

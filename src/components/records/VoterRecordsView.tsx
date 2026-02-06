@@ -51,6 +51,16 @@ export function VoterRecordsView({
   onVoterClick,
   lastElementRef,
 }: VoterRecordsViewProps) {
+  const isEn = entryMode === "english";
+
+  const stationName = isEn
+    ? pollingStation.place_name_en || pollingStation.place_name
+    : pollingStation.place_name_ne || pollingStation.place_name;
+
+  const wardLabel = isEn
+    ? pollingStation.ward_name_en || pollingStation.ward_name || ""
+    : pollingStation.ward_name_ne || pollingStation.ward_name || "";
+
   return (
     <Stack gap="md">
       {/* Sticky Header */}
@@ -73,13 +83,11 @@ export function VoterRecordsView({
                 </ActionIcon>
                 <div>
                   <Text fw={600} size="sm">
-                    {pollingStation.place_name}
+                    {stationName}
                   </Text>
                   <Text size="xs" c="dimmed">
                     {pollingStation.station_code}
-                    {pollingStation.ward_id
-                      ? ` · Ward ${pollingStation.ward_id}`
-                      : ""}
+                    {wardLabel ? ` · ${wardLabel}` : ""}
                   </Text>
                 </div>
               </Group>
@@ -92,14 +100,18 @@ export function VoterRecordsView({
                 </Badge>
                 {totalCount > 0 && (
                   <Badge variant="light" color="gray">
-                    {totalCount} voters
+                    {totalCount} {isEn ? "voters" : "मतदाता"}
                   </Badge>
                 )}
               </Group>
             </Group>
 
             <TextInput
-              placeholder="Search by name or voter ID..."
+              placeholder={
+                isEn
+                  ? "Search by name or voter ID..."
+                  : "नाम वा मतदाता नं. खोज्नुहोस्..."
+              }
               leftSection={<MagnifyingGlassIcon size={18} />}
               value={search}
               onChange={(e) => onSearchChange(e.currentTarget.value)}
@@ -117,46 +129,57 @@ export function VoterRecordsView({
         </Center>
       ) : isError ? (
         <Center py="xl">
-          <Text c="red">Failed to load voter records. Please try again.</Text>
+          <Text c="red">
+            {isEn
+              ? "Failed to load voter records. Please try again."
+              : "मतदाता विवरण लोड गर्न असफल। पुन: प्रयास गर्नुहोस्।"}
+          </Text>
         </Center>
       ) : voters.length === 0 ? (
         <Center py="xl">
           <Text c="dimmed">
             {debouncedSearch
-              ? "No voters found matching your search"
-              : "No voter records available"}
+              ? isEn
+                ? "No voters found matching your search"
+                : "खोजसँग मिल्ने मतदाता भेटिएन"
+              : isEn
+                ? "No voter records available"
+                : "मतदाता विवरण उपलब्ध छैन"}
           </Text>
         </Center>
       ) : (
-        <Stack gap="sm">
-          <Container size="md">
-            <SimpleGrid
-              spacing={4}
-              cols={{
-                xs: 1,
-                md: 2,
-                lg: 3,
-              }}
-            >
-              {voters.map((voter, index) => {
-                const isLast = index === voters.length - 1;
-                return (
-                  <VoterCard
-                    key={voter.id}
-                    voter={voter}
-                    onClick={() => onVoterClick(voter)}
-                  />
-                );
-              })}
-            </SimpleGrid>
-          </Container>
+        <>
+          <div>
+            <Container>
+              <SimpleGrid
+                spacing={4}
+                cols={{
+                  xs: 1,
+                  md: 2,
+                  lg: 2,
+                }}
+              >
+                {voters.map((voter, index) => {
+                  const isLast = index === voters.length - 1;
+                  return (
+                    <VoterCard
+                      key={voter.id}
+                      voter={voter}
+                      entryMode={entryMode}
+                      onClick={() => onVoterClick(voter)}
+                    />
+                  );
+                })}
+              </SimpleGrid>
+            </Container>
+          </div>
 
           {isFetchingNextPage && (
             <Center py="md">
               <Loader size="sm" />
             </Center>
           )}
-        </Stack>
+        </>
       )}
     </Stack>
   );

@@ -22,8 +22,10 @@ import {
   SignOutIcon,
   CaretDownIcon,
   BellIcon,
+  TranslateIcon,
 } from "@phosphor-icons/react";
 import { useAuthStore } from "@/stores/authStore";
+import type { EntryMode } from "@/types";
 import { logout } from "@/services/auth";
 import Cookies from "js-cookie";
 
@@ -33,7 +35,8 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const { isAuthenticated, user, reset } = useAuthStore();
+  const { isAuthenticated, user, reset, entryMode, setEntryMode } =
+    useAuthStore();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -76,12 +79,33 @@ export default function MainLayout({
                   <BellIcon weight="fill" />
                 </ThemeIcon>
                 <Text size="xs" fw={600}>
-                  RSP App | Data-Entry Portal
+                  RSP App
+                  <Text component="span" size="xs" fw={600} visibleFrom="sm">
+                    {" "}| Data-Entry Portal
+                  </Text>
                 </Text>
               </Group>
             </UnstyledButton>
 
-            <Group>
+            <Group gap="sm">
+              <UnstyledButton
+                onClick={() =>
+                  setEntryMode(entryMode === "nepali" ? "english" : "nepali")
+                }
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                  padding: "4px 10px",
+                  borderRadius: 6,
+                  border: "1px solid var(--mantine-color-gray-3)",
+                }}
+              >
+                <TranslateIcon size={16} />
+                <Text size="xs" fw={600}>
+                  {entryMode === "nepali" ? "NE" : "EN"}
+                </Text>
+              </UnstyledButton>
               <Menu shadow="md" width={220} position="bottom-end">
                 <Menu.Target>
                   <UnstyledButton>
@@ -89,7 +113,7 @@ export default function MainLayout({
                       <Avatar color="blue" radius="xl" size="md">
                         {userInitials}
                       </Avatar>
-                      <Stack gap={0}>
+                      <Stack gap={0} visibleFrom="sm">
                         <Text size="sm" fw={600}>
                           {user?.first_name} {user?.last_name}
                         </Text>

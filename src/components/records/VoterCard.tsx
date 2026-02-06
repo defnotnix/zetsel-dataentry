@@ -3,28 +3,36 @@
 import { Card, Group, Text, Badge, Stack, Box, Paper } from "@mantine/core";
 import {
   Phone,
-  IdentificationCard,
   Users,
   Briefcase,
 } from "@phosphor-icons/react";
-import type { VoterRollEntry } from "@/types";
+import type { VoterRollEntry, EntryMode } from "@/types";
 import styles from "./styles.module.css";
 
 interface VoterCardProps {
   voter: VoterRollEntry;
+  entryMode: EntryMode;
   onClick: () => void;
 }
 
-export function VoterCard({ voter, onClick }: VoterCardProps) {
+export function VoterCard({ voter, entryMode, onClick }: VoterCardProps) {
   const extra = voter.extra;
+  const isEn = entryMode === "english";
 
-  // Always use Nepali variant for display
-  const displayName = voter.name_ne;
-  const gender = voter.gender_ne;
+  const displayName = isEn ? voter.name_en || voter.name_ne : voter.name_ne;
+  const secondaryName = isEn ? voter.name_ne : voter.name_en;
+  const isMale =
+    voter.gender_en?.toLowerCase() === "male" || voter.gender_ne === "पुरुष";
 
-  const father = voter.father_name_ne;
-  const mother = voter.mother_name_ne;
-  const spouse = voter.spouse_name_ne;
+  const father = isEn
+    ? voter.father_name_en || voter.father_name_ne
+    : voter.father_name_ne;
+  const mother = isEn
+    ? voter.mother_name_en || voter.mother_name_ne
+    : voter.mother_name_ne;
+  const spouse = isEn
+    ? voter.spouse_name_en || voter.spouse_name_ne
+    : voter.spouse_name_ne;
 
   const occupation = extra?.occupation_en;
 
@@ -48,39 +56,54 @@ export function VoterCard({ voter, onClick }: VoterCardProps) {
       <Stack gap={6}>
         {/* Top row: Name + badges */}
         <Group justify="space-between" wrap="nowrap">
-          <Text fw={800} size="sm" truncate>
-            {displayName}
-          </Text>
+          <Box style={{ minWidth: 0 }}>
+            <Text fw={800} size="sm" truncate>
+              {displayName}
+            </Text>
+            {secondaryName && (
+              <Text size="xs" c="dimmed" truncate>
+                {secondaryName}
+              </Text>
+            )}
+          </Box>
           <Group gap={4} wrap="nowrap">
             {hasExtra && (
               <Badge size="xs" color="green" variant="light">
                 Filled
               </Badge>
             )}
-            <Badge size="xs" variant="light" color="gray">
-              {voter.age}yr · {gender}
+            <Badge
+              size="xs"
+              variant="light"
+              color={isMale ? "blue" : "pink"}
+            >
+              {voter.age} · {isMale ? "M" : "F"}
             </Badge>
           </Group>
         </Group>
 
-        {/* ID row */}
-        <Group gap="xs">
-          <IdentificationCard size={14} weight="bold" />
-          <Text size="xs" c="dimmed">
-            #{voter.serial_no} · {voter.voter_no}
-          </Text>
-        </Group>
-
-        {/* Family row */}
-        {(father || mother || spouse) && (
+        {/* Father / Mother row */}
+        {(father || mother) && (
           <Group gap="xs" wrap="nowrap">
             <Users size={14} style={{ flexShrink: 0 }} />
             <Text size="xs" c="dimmed" truncate>
-              {spouse ? `पति/पत्नी: ${spouse}` : ""}
-              {spouse && father ? " · " : ""}
-              {father ? `बुबा: ${father}` : ""}
-              {(spouse || father) && mother ? " · " : ""}
-              {mother ? `आमा: ${mother}` : ""}
+              {father
+                ? `${isEn ? "Father" : "बुबा"}: ${father}`
+                : ""}
+              {father && mother ? " · " : ""}
+              {mother
+                ? `${isEn ? "Mother" : "आमा"}: ${mother}`
+                : ""}
+            </Text>
+          </Group>
+        )}
+
+        {/* Spouse row */}
+        {spouse && (
+          <Group gap="xs" wrap="nowrap">
+            <Users size={14} style={{ flexShrink: 0 }} />
+            <Text size="xs" c="dimmed" truncate>
+              {`${isEn ? "Spouse" : "पति/पत्नी"}: ${spouse}`}
             </Text>
           </Group>
         )}

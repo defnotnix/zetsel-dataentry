@@ -34,16 +34,27 @@ export interface PollingStation {
   station_code?: string | null;
   place_id?: number;
   place_name: string;
+  place_name_ne?: string;
   place_name_en?: string;
   ward_id?: number;
   ward_no?: number;
   ward_name?: string;
+  ward_name_ne?: string;
+  ward_name_en?: string;
   local_body_id?: number;
   local_body_name?: string;
+  local_body_name_ne?: string;
+  local_body_name_en?: string;
   district_id?: number;
   district_name?: string;
+  district_name_ne?: string;
+  district_name_en?: string;
   province_id?: number;
   province_name?: string;
+  province_name_ne?: string;
+  province_name_en?: string;
+  display_name?: string;
+  election_id?: number | null;
 }
 
 export interface VoterRollEntryExtra {

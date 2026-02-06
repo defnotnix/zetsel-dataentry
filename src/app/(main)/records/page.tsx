@@ -94,6 +94,7 @@ export default function RecordsPage() {
     return (
       <BoothSelectionView
         pollingStations={pollingStations}
+        entryMode={entryMode}
         onStationSelect={handleStationClick}
       />
     );
