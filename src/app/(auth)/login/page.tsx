@@ -87,51 +87,31 @@ export default function LoginPage() {
 
 
                 <Stack gap={0}>
-                  <Text size="2rem" fw={900} ta="center">
-                    RSP
+                  <Text size="xl" fw={900} ta="center">
+                    Welcome back!
                   </Text>
-                  <Text size="lg">
-                    Data Entry System
+                  <Text size="sm" ta="center">
+                     RSP Data Entry System
                   </Text>
                 </Stack>
 
-                <Text c="dimmed" size="sm" ta="center">
-                  Election Data Entry & Organization Platform
-                </Text>
+               
               </Stack>
 
               <form onSubmit={form.onSubmit(handleSubmit)}>
                 <Stack>
                   <TextInput
-                    size="md"
-                    style={{
-                      input: {
-                        fontSize: "var(--mantine-font-size-xs)",
-                        fontWeight: 800,
-                      },
-                      label: {
-                        fontWeight: 800,
-                        fontSize: "var(--mantine-font-size-xs)",
-                      }
-                    }}
+                    size="xs"
+                   
                     label="Username"
                     placeholder="Enter your username"
                     required
                     {...form.getInputProps("username")}
                   />
                   <PasswordInput
-                    size="md"
+                    size="xs"
                     label="Password"
-                    style={{
-                      input: {
-                        fontSize: "var(--mantine-font-size-xs)",
-                        fontWeight: 800,
-                      },
-                      label: {
-                        fontWeight: 800,
-                        fontSize: "var(--mantine-font-size-xs)",
-                      }
-                    }}
+                   
                     placeholder="Enter your password"
                     required
                     {...form.getInputProps("password")}
@@ -141,7 +121,7 @@ export default function LoginPage() {
                     Forgot your password? Please contact operator.
                   </Text>
 
-                  <Button size="md" type="submit" fullWidth loading={loading} mt="sm">
+                  <Button size="xs" type="submit" fullWidth loading={loading} mt="sm">
                     Sign In
                   </Button>
 

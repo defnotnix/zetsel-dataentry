@@ -28,10 +28,10 @@ export function BoothSelectionView({
   return (
     <Container size="md" py="lg">
       <Stack gap="lg">
-        <Box>
-          <Title order={3} ta="center">
+        <Box py="xl">
+          <Text size="xl" ta="center" fw={800}>
             Select Polling Booth
-          </Title>
+          </Text>
           <Text c="dimmed" size="sm" ta="center">
             Choose a booth to view and edit voter records
           </Text>
@@ -53,24 +53,22 @@ export function BoothSelectionView({
                 style={{ cursor: "pointer" }}
                 className={styles.hoverCard}
               >
-                <Group gap="sm">
-                  <ThemeIcon size="md" variant="light">
-                    <MapPinIcon weight="fill" />
-                  </ThemeIcon>
+                <ThemeIcon size="md" variant="light" mb="xl">
+                  <MapPinIcon weight="fill" />
+                </ThemeIcon>
 
-                  <Stack gap="md">
-                    <Text fw={800} size="sm">
-                      {station.place_name}
-                    </Text>
-                    <Text size="xs" c="dimmed">
-                      {station.ward_id ? `Ward ${station.ward_id}` : ""}
-                      {station.place_name ? ` · ${station.place_name}` : ""}
-                    </Text>
-                    <Group justify="flex-end">
-                      <ArrowUpRightIcon />
-                    </Group>
-                  </Stack>
-                </Group>
+                <Stack gap={4}>
+                  <Text fw={800} size="sm">
+                    {station.place_name}
+                  </Text>
+                  <Text size="xs" c="dimmed">
+                    {station.ward_id ? `Ward ${station.ward_id}` : ""}
+                    {station.place_name ? ` · ${station.place_name}` : ""}
+                  </Text>
+                  <Group mt="md">
+                    <ArrowUpRightIcon />
+                  </Group>
+                </Stack>
               </Paper>
             ))}
           </SimpleGrid>

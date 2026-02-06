@@ -49,19 +49,13 @@ export interface PollingStation {
 export interface VoterRollEntryExtra {
   id: number;
   entry: number;
-  address_raw?: string | null;
-  phone_number?: string | null;
-  occupation?: string | null;
-  religion?: string | null;
-  education?: string | null;
-  living_address?: string | null;
-  remarks?: string | null;
-  // English variants
   address_en?: string | null;
   occupation_en?: string | null;
   religion_en?: string | null;
   education_en?: string | null;
-  living_address_en?: string | null;
+  political_affiliation_en?: string | null;
+  phone_number?: string | null;
+  remarks?: string | null;
 }
 
 export interface VoterRollEntry {
@@ -111,20 +105,11 @@ export interface VoterUpdatePayload {
   entry?: number;
   phone_number?: string;
   remarks?: string;
-
-  // Nepali / Raw fields
-  address_raw?: string;
-  occupation?: string;
-  education?: string;
-  religion?: string;
-  living_address?: string;
-
-  // English fields
   address_en?: string;
   occupation_en?: string;
   education_en?: string;
   religion_en?: string;
-  living_address_en?: string;
+  political_affiliation_en?: string;
 }
 
 // ============ App Types ============
@@ -141,5 +126,24 @@ export const OCCUPATION_OPTIONS: OccupationOption[] = [
   { value: "employment", label_ne: "जागिर", label_en: "Employment" },
   { value: "business", label_ne: "व्यापार", label_en: "Business" },
   { value: "agriculture", label_ne: "कृषि", label_en: "Agriculture" },
+  { value: "other", label_ne: "अन्य", label_en: "Other" },
+];
+
+export const RELIGION_OPTIONS: OccupationOption[] = [
+  { value: "hindu", label_ne: "हिन्दु", label_en: "Hindu" },
+  { value: "buddhist", label_ne: "बौद्ध", label_en: "Buddhist" },
+  { value: "muslim", label_ne: "मुस्लिम", label_en: "Muslim" },
+  { value: "christian", label_ne: "ईसाई", label_en: "Christian" },
+  { value: "kirat", label_ne: "किरात", label_en: "Kirat" },
+  { value: "other", label_ne: "अन्य", label_en: "Other" },
+];
+
+export const POLITICAL_AFFILIATION_OPTIONS: OccupationOption[] = [
+  { value: "congress", label_ne: "नेपाली कांग्रेस", label_en: "Nepali Congress" },
+  { value: "uml", label_ne: "नेकपा एमाले", label_en: "CPN (UML)" },
+  { value: "maoist", label_ne: "नेकपा माओवादी", label_en: "CPN (Maoist)" },
+  { value: "rsp", label_ne: "राष्ट्रिय स्वतन्त्र पार्टी", label_en: "RSP" },
+  { value: "rpp", label_ne: "राप्रपा", label_en: "RPP" },
+  { value: "jsb", label_ne: "जनता समाजवादी", label_en: "JSP" },
   { value: "other", label_ne: "अन्य", label_en: "Other" },
 ];

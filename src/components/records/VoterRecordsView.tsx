@@ -14,6 +14,7 @@ import {
   Loader,
   SimpleGrid,
   Box,
+  Divider,
 } from "@mantine/core";
 import { MagnifyingGlassIcon, ArrowLeftIcon } from "@phosphor-icons/react";
 import type { VoterRollEntry, PollingStation, EntryMode } from "@/types";
@@ -51,20 +52,19 @@ export function VoterRecordsView({
   lastElementRef,
 }: VoterRecordsViewProps) {
   return (
-    <Container size="md">
-      <Stack gap="md">
-        {/* Sticky Header */}
-        <Paper
-          py="xl"
-          bg="none"
-          radius="md"
-          style={{
-            position: "sticky",
-            top: 0,
-            zIndex: 10,
-            background: "white",
-          }}
-        >
+    <Stack gap="md">
+      {/* Sticky Header */}
+      <Paper
+        pt="xl"
+        bg="gray.0"
+        radius="md"
+        style={{
+          position: "sticky",
+          top: 60,
+          zIndex: 10,
+        }}
+      >
+        <Container mb="xl">
           <Stack gap="sm">
             <Group justify="space-between">
               <Group gap="sm">
@@ -105,27 +105,31 @@ export function VoterRecordsView({
               onChange={(e) => onSearchChange(e.currentTarget.value)}
             />
           </Stack>
-        </Paper>
+        </Container>
 
-        {/* Content */}
-        {isLoading ? (
-          <Center py="xl">
-            <Loader size="lg" />
-          </Center>
-        ) : isError ? (
-          <Center py="xl">
-            <Text c="red">Failed to load voter records. Please try again.</Text>
-          </Center>
-        ) : voters.length === 0 ? (
-          <Center py="xl">
-            <Text c="dimmed">
-              {debouncedSearch
-                ? "No voters found matching your search"
-                : "No voter records available"}
-            </Text>
-          </Center>
-        ) : (
-          <Stack gap="sm">
+        <Divider />
+      </Paper>
+
+      {/* Content */}
+      {isLoading ? (
+        <Center py="xl">
+          <Loader size="lg" />
+        </Center>
+      ) : isError ? (
+        <Center py="xl">
+          <Text c="red">Failed to load voter records. Please try again.</Text>
+        </Center>
+      ) : voters.length === 0 ? (
+        <Center py="xl">
+          <Text c="dimmed">
+            {debouncedSearch
+              ? "No voters found matching your search"
+              : "No voter records available"}
+          </Text>
+        </Center>
+      ) : (
+        <Stack gap="sm">
+          <Container size="md">
             <SimpleGrid
               spacing={4}
               cols={{
@@ -137,29 +141,23 @@ export function VoterRecordsView({
               {voters.map((voter, index) => {
                 const isLast = index === voters.length - 1;
                 return (
-                  <Paper
-                    p="md"
-                    withBorder
+                  <VoterCard
                     key={voter.id}
-                    ref={isLast ? lastElementRef : undefined}
-                  >
-                    <VoterCard
-                      voter={voter}
-                      onClick={() => onVoterClick(voter)}
-                    />
-                  </Paper>
+                    voter={voter}
+                    onClick={() => onVoterClick(voter)}
+                  />
                 );
               })}
             </SimpleGrid>
+          </Container>
 
-            {isFetchingNextPage && (
-              <Center py="md">
-                <Loader size="sm" />
-              </Center>
-            )}
-          </Stack>
-        )}
-      </Stack>
-    </Container>
+          {isFetchingNextPage && (
+            <Center py="md">
+              <Loader size="sm" />
+            </Center>
+          )}
+        </Stack>
+      )}
+    </Stack>
   );
 }

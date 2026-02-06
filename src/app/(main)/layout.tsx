@@ -14,12 +14,14 @@ import {
   UnstyledButton,
   rem,
   ThemeIcon,
+  Stack,
+  Badge,
 } from "@mantine/core";
 import {
   UserCircleIcon,
   SignOutIcon,
   CaretDownIcon,
-  PlanetIcon,
+  BellIcon,
 } from "@phosphor-icons/react";
 import { useAuthStore } from "@/stores/authStore";
 import { logout } from "@/services/auth";
@@ -65,51 +67,68 @@ export default function MainLayout({
 
   return (
     <AppShell header={{ height: 60 }} padding={0}>
-      <AppShell.Header bg="none">
+      <AppShell.Header bg="gray.0">
         <Container size="md" h="100%">
           <Group h="100%" justify="space-between">
-            <Group gap="xs">
-              <ThemeIcon size="sm" color="black">
-                <PlanetIcon weight="fill" />
-              </ThemeIcon>
-              <Text size="xs" fw={600}>
-                RSP App | Data-Entry Portal
-              </Text>
+            <UnstyledButton onClick={() => router.push("/records")}>
+              <Group gap="xs">
+                <ThemeIcon size="sm" color="blue">
+                  <BellIcon weight="fill" />
+                </ThemeIcon>
+                <Text size="xs" fw={600}>
+                  RSP App | Data-Entry Portal
+                </Text>
+              </Group>
+            </UnstyledButton>
+
+            <Group>
+              <Menu shadow="md" width={220} position="bottom-end">
+                <Menu.Target>
+                  <UnstyledButton>
+                    <Group gap="sm">
+                      <Avatar color="blue" radius="xl" size="md">
+                        {userInitials}
+                      </Avatar>
+                      <Stack gap={0}>
+                        <Text size="sm" fw={600}>
+                          {user?.first_name} {user?.last_name}
+                        </Text>
+                        <Text size="xs" c="dimmed">
+                          {user?.username}
+                        </Text>
+                      </Stack>
+                      <CaretDownIcon size={14} />
+                    </Group>
+                  </UnstyledButton>
+                </Menu.Target>
+
+                <Menu.Dropdown>
+                  <Menu.Label>
+                    <Stack gap={2}>
+                      <Text size="sm" fw={600}>
+                        {user?.first_name} {user?.last_name}
+                      </Text>
+                      <Text size="xs" c="dimmed">
+                        @{user?.username}
+                      </Text>
+                      {user?.email && (
+                        <Text size="xs" c="dimmed">
+                          {user.email}
+                        </Text>
+                      )}
+                    </Stack>
+                  </Menu.Label>
+                  <Menu.Divider />
+                  <Menu.Item
+                    color="red"
+                    leftSection={<SignOutIcon size={16} />}
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
             </Group>
-
-            <Menu shadow="md" width={200} position="bottom-end">
-              <Menu.Target>
-                <UnstyledButton>
-                  <Group gap="xs">
-                    <Avatar color="blue" radius="xl" size="sm">
-                      {userInitials}
-                    </Avatar>
-                    <Text size="sm" fw={500}>
-                      {user?.first_name} {user?.last_name}
-                    </Text>
-                    <CaretDownIcon size={12} />
-                  </Group>
-                </UnstyledButton>
-              </Menu.Target>
-
-              <Menu.Dropdown>
-                <Menu.Label>Account</Menu.Label>
-                <Menu.Item
-                  leftSection={<UserCircleIcon size={16} />}
-                  onClick={() => router.push("/profile")}
-                >
-                  Profile
-                </Menu.Item>
-                <Menu.Divider />
-                <Menu.Item
-                  color="red"
-                  leftSection={<SignOutIcon size={16} />}
-                  onClick={handleLogout}
-                >
-                  Logout
-                </Menu.Item>
-              </Menu.Dropdown>
-            </Menu>
           </Group>
         </Container>
       </AppShell.Header>

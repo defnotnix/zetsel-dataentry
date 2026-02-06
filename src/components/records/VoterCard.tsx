@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, Group, Text, Badge, Stack, Box } from "@mantine/core";
+import { Card, Group, Text, Badge, Stack, Box, Paper } from "@mantine/core";
 import {
   Phone,
   IdentificationCard,
@@ -8,7 +8,6 @@ import {
   Briefcase,
 } from "@phosphor-icons/react";
 import type { VoterRollEntry } from "@/types";
-import { useAuthStore } from "@/stores/authStore";
 import styles from "./styles.module.css";
 
 interface VoterCardProps {
@@ -17,33 +16,39 @@ interface VoterCardProps {
 }
 
 export function VoterCard({ voter, onClick }: VoterCardProps) {
-  const { entryMode } = useAuthStore();
-  const isNepali = entryMode === "nepali";
   const extra = voter.extra;
 
-  const displayName = isNepali ? voter.name_ne : voter.name_en;
-  const gender = isNepali ? voter.gender_ne : voter.gender_en;
+  // Always use Nepali variant for display
+  const displayName = voter.name_ne;
+  const gender = voter.gender_ne;
 
-  const father = isNepali ? voter.father_name_ne : voter.father_name_en;
-  const mother = isNepali ? voter.mother_name_ne : voter.mother_name_en;
-  const spouse = isNepali ? voter.spouse_name_ne : voter.spouse_name_en;
+  const father = voter.father_name_ne;
+  const mother = voter.mother_name_ne;
+  const spouse = voter.spouse_name_ne;
 
-  const occupation = isNepali ? extra?.occupation : extra?.occupation_en;
+  const occupation = extra?.occupation_en;
 
   const hasExtra = !!(
     extra?.phone_number ||
-    extra?.occupation ||
     extra?.occupation_en ||
-    extra?.address_raw ||
     extra?.address_en
   );
 
   return (
-    <Box onClick={onClick} className={styles.hoverCard}>
+    <Paper
+      withBorder
+      bg="white"
+      style={{
+        cursor: "pointer",
+      }}
+      onClick={onClick}
+      className={styles.hoverCard}
+      p="lg"
+    >
       <Stack gap={6}>
         {/* Top row: Name + badges */}
         <Group justify="space-between" wrap="nowrap">
-          <Text fw={600} size="sm" truncate>
+          <Text fw={800} size="sm" truncate>
             {displayName}
           </Text>
           <Group gap={4} wrap="nowrap">
@@ -71,11 +76,11 @@ export function VoterCard({ voter, onClick }: VoterCardProps) {
           <Group gap="xs" wrap="nowrap">
             <Users size={14} style={{ flexShrink: 0 }} />
             <Text size="xs" c="dimmed" truncate>
-              {spouse ? `${isNepali ? "पति/पत्नी" : "Spouse"}: ${spouse}` : ""}
+              {spouse ? `पति/पत्नी: ${spouse}` : ""}
               {spouse && father ? " · " : ""}
-              {father ? `${isNepali ? "बुबा" : "F"}: ${father}` : ""}
+              {father ? `बुबा: ${father}` : ""}
               {(spouse || father) && mother ? " · " : ""}
-              {mother ? `${isNepali ? "आमा" : "M"}: ${mother}` : ""}
+              {mother ? `आमा: ${mother}` : ""}
             </Text>
           </Group>
         )}
@@ -102,6 +107,6 @@ export function VoterCard({ voter, onClick }: VoterCardProps) {
           </Group>
         )}
       </Stack>
-    </Box>
+    </Paper>
   );
 }
