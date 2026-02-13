@@ -149,6 +149,16 @@ export const RELIGION_OPTIONS: OccupationOption[] = [
   { value: "other", label_ne: "अन्य", label_en: "Other" },
 ];
 
+export const EDUCATION_OPTIONS: OccupationOption[] = [
+  { value: "uneducated", label_ne: "अशिक्षित", label_en: "Uneducated" },
+  { value: "school_level", label_ne: "विद्यालय तह", label_en: "School Level" },
+  { value: "plus_two", label_ne: "+२", label_en: "+2" },
+  { value: "bachelors", label_ne: "स्नातक", label_en: "Bachelors" },
+  { value: "masters", label_ne: "स्नातकोत्तर", label_en: "Masters" },
+  { value: "phd", label_ne: "पीएचडी", label_en: "PhD" },
+  { value: "other", label_ne: "अन्य", label_en: "Other" },
+];
+
 export const POLITICAL_AFFILIATION_OPTIONS: OccupationOption[] = [
   { value: "congress", label_ne: "नेपाली कांग्रेस", label_en: "Nepali Congress" },
   { value: "uml", label_ne: "नेकपा एमाले", label_en: "CPN (UML)" },

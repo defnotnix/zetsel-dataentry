@@ -20,6 +20,7 @@ import { saveVoterExtra } from "@/services/elections";
 import type { VoterRollEntry, VoterUpdatePayload } from "@/types";
 import {
   OCCUPATION_OPTIONS,
+  EDUCATION_OPTIONS,
   RELIGION_OPTIONS,
   POLITICAL_AFFILIATION_OPTIONS,
 } from "@/types";
@@ -107,6 +108,11 @@ export function EditRecordModal({
     label: opt.label_en,
   }));
 
+  const educationOptions = EDUCATION_OPTIONS.map((opt) => ({
+    value: opt.value,
+    label: opt.label_en,
+  }));
+
   const religionOptions = RELIGION_OPTIONS.map((opt) => ({
     value: opt.value,
     label: opt.label_en,
@@ -189,10 +195,13 @@ export function EditRecordModal({
             searchable
           />
 
-          <TextInput
+          <Select
             label="Education"
-            placeholder="Enter education"
+            placeholder="Select education"
+            data={educationOptions}
             {...form.getInputProps("education")}
+            clearable
+            searchable
           />
 
           <Select

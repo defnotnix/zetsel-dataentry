@@ -27,6 +27,7 @@ export default function LoginPage() {
   const router = useRouter();
   const { setUser } = useAuthStore();
   const [loading, setLoading] = useState(false);
+  const [currentDate] = useState(() => String(new Date()));
 
   const form = useForm({
     initialValues: {
@@ -134,7 +135,7 @@ export default function LoginPage() {
 
             <Group justify="center">
               <Text size="xs" fw={800} c="gray.0" >
-                {String(new Date())}
+                {currentDate}
               </Text>
             </Group>
 
