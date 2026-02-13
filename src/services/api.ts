@@ -1,5 +1,6 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 import Cookies from "js-cookie";
+import { useAuthStore } from "@/stores/authStore";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://api.zetsel.com";
 
@@ -21,6 +22,13 @@ api.interceptors.request.use(
   },
   (error) => Promise.reject(error)
 );
+
+const forceLogout = () => {
+  Cookies.remove("access_token");
+  Cookies.remove("refresh_token");
+  useAuthStore.getState().reset();
+  window.location.href = "/login";
+};
 
 // Response interceptor: handle 401 -> refresh -> retry
 let isRefreshing = false;
@@ -71,10 +79,7 @@ api.interceptors.response.use(
 
       if (!refreshToken) {
         isRefreshing = false;
-        // Trigger logout
-        Cookies.remove("access_token");
-        Cookies.remove("refresh_token");
-        window.location.href = "/login";
+        forceLogout();
         return Promise.reject(error);
       }
 
@@ -94,9 +99,7 @@ api.interceptors.response.use(
         return api(originalRequest);
       } catch (refreshError) {
         processQueue(refreshError, null);
-        Cookies.remove("access_token");
-        Cookies.remove("refresh_token");
-        window.location.href = "/login";
+        forceLogout();
         return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;
